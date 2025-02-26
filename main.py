@@ -1,4 +1,5 @@
 import requests 
+import os
 
 def readCookie():
     env = open('./.env', 'r')
@@ -25,14 +26,29 @@ def getFile(cookie, url):
 
     return response
 
-def saveFile(response, year, day):
-    puzzle_info = f"~/repos/advent-of-code/{year}/day{day}/input.txt"
-    puzzle_input = f"~/repos/advent-of-code/{year}/day{day}/input.txt"
+def save_file(response, year, day, is_input):
+    if is_input:
+        url = f"~/repos/aoc/{year}/day{day}/input.txt"  
+    else:
+        url = f"~/repos/aoc/{year}/day{day}/puzzle.txt"
+    
+    url = os.path.expanduser(url)
+    directory = os.path.dirname(url)
+
+    if not os.path.expanduser(url):
+        print(f"Error: Directory {directory} does not exist.")
+        os.makedirs(directory, exist_ok=True)
+    try: 
+       open(url, "w").write(response.text)
+    except Exception as e:
+        print(f"Error writing to file: {e}")
+        return
 
 def main():
     cookie = readCookie()
     url = makeUrl(2024, 1, True)  
-    getFile(cookie, url)
+    response = getFile(cookie, url)
+    save_file(response, 2024, 1, True)
 
 if __name__ == "__main__":
     main()
