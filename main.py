@@ -48,11 +48,20 @@ def save_file(response, year, day, is_input):
         print(f"Error writing to file: {e}")
         return
 
+# retrieves the puzzle and the input for the given day
+def getPuzzle(year, day, cookie): 
+    input_url = makeUrl(year, day, True)
+    puzzle_url = makeUrl(year, day, False)
+
+    input_reposnse = getFile(cookie, input_url) 
+    save_file(input_reposnse, year, day, True)
+    
+    puzzle_reposnse = getFile(cookie, puzzle_url) 
+    save_file(puzzle_reposnse, year, day, False)
+
 def main():
     cookie = readCookie()
-    url = makeUrl(2024, 1, True)  
-    response = getFile(cookie, url)
-    save_file(response, 2024, 1, True)
+    getPuzzle(2024, 1, cookie)
 
 if __name__ == "__main__":
     main()
