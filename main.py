@@ -1,9 +1,13 @@
-from src.curl import * 
+from src import readCookie, getPuzzle, parse_puzzle
+import argparse
 
 def main():
     cookie = readCookie()
-    getPuzzle(2024, 1, cookie)
+    parser = argparse.ArgumentParser(
+        prog='aoc',
+        description='gather aoc puzzle info and input',
+        epilog='\/\/\/\/\/\/'
+    )
 
 if __name__ == "__main__":
     main()
-
