@@ -1,2 +1,1 @@
-from src.curl import getPuzzle
-from src.curl import readCookie 
+from src.curl import getPuzzle, readCookie, parse_puzzle

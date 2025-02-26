@@ -1,5 +1,6 @@
 import requests 
 import os
+from bs4 import BeautifulSoup
 
 def readCookie():
     env = open('./.env', 'r')
@@ -27,23 +28,28 @@ def getFile(cookie, url):
 
     return response
 
-# save file to a directory in repos/aoc
-def save_file(response, year, day, is_input):
+def getPath(year, day, is_input):
     home = os.path.expanduser("~")
 
     if is_input:
-        url = f"{home}/repos/aoc/{year}/day{day}/input.txt"  
+        path = f"{home}/repos/aoc/{year}/day{day}/input.txt"  
     else:
-        url = f"{home}/repos/aoc/{year}/day{day}/puzzle.txt"
+        path = f"{home}/repos/aoc/{year}/day{day}/puzzle.txt"
+
+    return path
    
-    directory = os.path.dirname(url)
+
+# save file to a directory in repos/aoc
+def save_file(response, year, day, is_input):
+    path = getPath(year, day, is_input)
+    directory = os.path.dirname(path)
 
     if not os.path.exists(directory):
         print(f"{directory} does not exist. making directory")
         os.makedirs(directory, exist_ok=True)
 
     try: 
-        with open(url, "w") as f:
+        with open(path, "w") as f:
             f.write(response.text)
     except Exception as e:
         print(f"Error writing to file: {e}")
@@ -53,4 +59,14 @@ def save_file(response, year, day, is_input):
 def getPuzzle(year, day, cookie): 
     for is_input in [True, False]:
         response = getFile(cookie, makeUrl(year, day, is_input))
+
         save_file(response, year, day, is_input)
+        parse_puzzle(year, day)
+
+
+def parse_puzzle(year, day):
+    with open(getPath(year, day, False), "r+") as f:
+        soup = BeautifulSoup(f, 'html.parser').get_text()
+        f.seek(0)
+        f.write(str(soup))
+        f.truncate()
