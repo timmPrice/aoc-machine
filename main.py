@@ -27,19 +27,23 @@ def getFile(cookie, url):
     return response
 
 def save_file(response, year, day, is_input):
+    home = os.path.expanduser("~")
+
+    print(home)
     if is_input:
-        url = f"~/repos/aoc/{year}/day{day}/input.txt"  
+        url = f"{home}/repos/aoc/{year}/day{day}/input.txt"  
     else:
-        url = f"~/repos/aoc/{year}/day{day}/puzzle.txt"
-    
-    url = os.path.expanduser(url)
+        url = f"{home}/repos/aoc/{year}/day{day}/puzzle.txt"
+   
     directory = os.path.dirname(url)
 
-    if not os.path.expanduser(url):
-        print(f"Error: Directory {directory} does not exist.")
+    if not os.path.exists(directory):
+        print(f"{directory} does not exist. making directory")
         os.makedirs(directory, exist_ok=True)
+
     try: 
-       open(url, "w").write(response.text)
+        with open(url, "w") as f:
+            f.write(response.text)
     except Exception as e:
         print(f"Error writing to file: {e}")
         return
