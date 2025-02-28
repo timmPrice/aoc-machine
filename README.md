@@ -12,5 +12,5 @@
 - test the aoc command that was symlinked into your path... better path finding is coming soon so you may have to adjust where it is linked to or what which paths are in your $PATH
 
 #### To get your accounts website cookie
-- log in to [https://adventofcode.com/](advent of code)
+- log in to [advent of code](https://adventofcode.com/)
 - inspect the page, refresh on the network tab, inspect any of the returned network request and view the cookie value in the cookie tab of the network page
