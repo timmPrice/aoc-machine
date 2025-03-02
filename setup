@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+touch .env
+ln -f ./aoc $HOME/.local/scripts/
