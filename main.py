@@ -6,7 +6,7 @@ def main():
     parser = argparse.ArgumentParser(
         prog='aoc',
         description='gather aoc puzzle info and input',
-        epilog='\/\/\/\/\/\/'
+        epilog='------------'
     )
 
 if __name__ == "__main__":
