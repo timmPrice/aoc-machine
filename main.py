@@ -6,9 +6,7 @@ def main():
     parser = argparse.ArgumentParser(
         prog='aoc',
         description='gather aoc puzzle info and input',
-<<<<<<< HEAD
         epilog='that gone do it'
->>>>>>> refs/remotes/origin/master
     )
 
     parser.add_argument("-g", "--get", nargs=2, metavar=("YEAR", "DAY"), type=int,
