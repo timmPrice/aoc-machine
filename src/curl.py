@@ -70,3 +70,10 @@ def parse_puzzle(year, day):
         f.seek(0)
         f.write(str(soup))
         f.truncate()
+
+def test(year, day):
+    cookie = readCookie()
+    getPuzzle(year, day, cookie)
+
+def main():
+    test()
