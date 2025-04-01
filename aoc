@@ -1,8 +1,10 @@
 #!/bin/bash
 
-PROJECT_DIR="$(cd "$($HOME/repos/aoc-machine/ "$0")" && pwd)"
+PROJECT_DIR=$HOME/repos/aoc-machine
 cd "$PROJECT_DIR" || exit 1
-echo $PROJECT_DIR
+echo "Project directory: $PROJECT_DIR"
+
 export PYTHONPATH="$PROJECT_DIR"
-echo $PYTHONPATH
-poetry run python main.py "$@"
+echo "PYTHONPATH: $PYTHONPATH"
+
+python3 main.py "$@"

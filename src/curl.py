@@ -22,9 +22,10 @@ def getFile(cookie, url):
 
     if response.status_code == 200:
         print("successfully retrieved file")
+        return response
     else:
         print(f"Error: {response.status_code}")
-        return
+        return None
 
     return response
 
@@ -41,28 +42,31 @@ def getPath(year, day, is_input):
 
 # save file to a directory in repos/aoc
 def save_file(response, year, day, is_input):
+    if response is None:
+        print("Error: No response received, skipping file save.")
+        return False  
+
     path = getPath(year, day, is_input)
     directory = os.path.dirname(path)
 
     if not os.path.exists(directory):
         print(f"{directory} does not exist. making directory")
         os.makedirs(directory, exist_ok=True)
-
+        
     try: 
         with open(path, "w") as f:
             f.write(response.text)
     except Exception as e:
         print(f"Error writing to file: {e}")
-        return
+        return False
 
 # retrieves the puzzle instructions and the input for the given day
 def getPuzzle(year, day, cookie): 
     for is_input in [True, False]:
         response = getFile(cookie, makeUrl(year, day, is_input))
-
-        save_file(response, year, day, is_input)
-        parse_puzzle(year, day)
-
+        isSaved = save_file(response, year, day, is_input)
+        if isSaved:
+            parse_puzzle(year, day)
 
 def parse_puzzle(year, day):
     with open(getPath(year, day, False), "r+") as f:
@@ -74,6 +78,3 @@ def parse_puzzle(year, day):
 def test(year, day):
     cookie = readCookie()
     getPuzzle(year, day, cookie)
-
-def main():
-    test()
